@@ -56,7 +56,7 @@ jobs:
           sudo chmod -R u+rwX /var/www/html/my-php-app || exit
 
           # Fix ownership and permissions for the Git directory
-          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/index.php/.git || exit
+          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/my-php-app/.git || exit
           sudo chmod -R u+rwX /var/www/html/my-php-app/.git || exit
 
           # Configure Git to handle permissions issues
