@@ -56,12 +56,7 @@ jobs:
           sudo chmod -R u+rwX /var/www/html/my-php-app || exit
 
           # Pull the latest code (this assumes the directory is already a git repo)
-          # If this directory is not a git repo, you should clone it instead.
-          if [ ! -d .git ]; then
-            git clone https://github.com/Anjali0095/simple-php-website.git . || exit
-          else
-            git pull origin master || exit
-          fi
+          git pull origin master || exit
 
           # Install PHP dependencies if using Composer
           if [ -f composer.json ]; then
