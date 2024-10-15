@@ -55,6 +55,10 @@ jobs:
           sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/my-php-app || exit
           sudo chmod -R u+rwX /var/www/html/my-php-app || exit
 
+          # Fix ownership and permissions for the Git directory
+          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/my-php-app/.git || exit
+          sudo chmod -R u+rwX /var/www/html/my-php-app/.git || exit
+
           # Pull the latest code
           git pull origin master || exit
 
