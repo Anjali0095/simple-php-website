@@ -1,0 +1,42 @@
+name: Deploy PHP Application to EC2
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Install PHP (optional if you want to run tests locally in the CI)
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'  # You can specify your PHP version here
+
+      # Step 3: Run Unit Tests (optional, skip if you don't have tests)
+      # - name: Run Unit Tests
+      #   run: |
+      #     composer install
+      #     php vendor/bin/phpunit tests/
+
+      # Step 4: Deploy code to the EC2 server
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /var/www/html
+            sudo git pull origin master
+            sudo systemctl restart apache2  # Restart the web server to reflect changes
