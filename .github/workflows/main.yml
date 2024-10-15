@@ -51,16 +51,17 @@ jobs:
           # Change to the deployment directory
           cd /var/www/html/my-php-app || exit
 
-          # Fix ownership and permissions for the repository
+          # Fix ownership and permissions for the deployment directory
           sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/my-php-app || exit
           sudo chmod -R u+rwX /var/www/html/my-php-app || exit
 
-          # Fix ownership and permissions for the Git directory
-          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/my-php-app/.git || exit
-          sudo chmod -R u+rwX /var/www/html/my-php-app/.git || exit
-
-          # Pull the latest code
-          git pull origin master || exit
+          # Pull the latest code (this assumes the directory is already a git repo)
+          # If this directory is not a git repo, you should clone it instead.
+          if [ ! -d .git ]; then
+            git clone https://github.com/Anjali0095/simple-php-website.git . || exit
+          else
+            git pull origin master || exit
+          fi
 
           # Install PHP dependencies if using Composer
           if [ -f composer.json ]; then
