@@ -47,7 +47,7 @@ jobs:
           ssh -i ~/.ssh/deploy_key $AWS_EC2_USER@$AWS_EC2_HOST << 'EOF'
           # Ensure the deployment directory exists
           mkdir -p /var/www/html/my-php-app || exit
-          
+        
           # Change to the deployment directory
           cd /var/www/html/my-php-app || exit
 
@@ -57,6 +57,7 @@ jobs:
 
           # Configure Git to handle permissions issues
           git config --global --add safe.directory /var/www/html/my-php-app || exit
+          git config --global --add safe.directory /var/www/html || exit  # Add this line
 
           # Pull the latest code
           git pull origin master || exit
