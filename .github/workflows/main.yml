@@ -46,21 +46,21 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key $AWS_EC2_USER@$AWS_EC2_HOST << 'EOF'
           # Ensure the deployment directory exists
-          mkdir -p /var/www/html/index.php || exit
+          mkdir -p /var/www/html/my-php-app || exit
           
           # Change to the deployment directory
-          cd /var/www/html/index.php  || exit
+          cd /var/www/html/my-php-app || exit
 
           # Fix ownership and permissions for the repository
           sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/index.php || exit
-          sudo chmod -R u+rwX /var/www/html/index.php  || exit
+          sudo chmod -R u+rwX /var/www/html/my-php-app || exit
 
           # Fix ownership and permissions for the Git directory
-          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/index.php /.git || exit
-          sudo chmod -R u+rwX /var/www/html/index.php /.git || exit
+          sudo chown -R $AWS_EC2_USER:$AWS_EC2_USER /var/www/html/index.php/.git || exit
+          sudo chmod -R u+rwX /var/www/html/my-php-app/.git || exit
 
           # Configure Git to handle permissions issues
-          git config --global --add safe.directory /var/www/html/index.php  || exit
+          git config --global --add safe.directory /var/www/html/my-php-app || exit
           git config --global --add safe.directory /var/www/html || exit  # Add this line
 
           # Pull the latest code
@@ -74,5 +74,3 @@ jobs:
           # Restart Apache to apply changes
           sudo systemctl restart apache2
           EOF
-
-
